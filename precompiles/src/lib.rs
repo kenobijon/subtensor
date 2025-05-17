@@ -24,6 +24,7 @@ use crate::ed25519::*;
 use crate::extensions::*;
 use crate::metagraph::*;
 use crate::neuron::*;
+use crate::alpha::*;
 use crate::staking::*;
 use crate::subnet::*;
 
@@ -32,6 +33,7 @@ mod ed25519;
 mod extensions;
 mod metagraph;
 mod neuron;
+mod alpha;
 mod staking;
 mod subnet;
 
@@ -84,7 +86,7 @@ where
         Self(Default::default())
     }
 
-    pub fn used_addresses() -> [H160; 14] {
+    pub fn used_addresses() -> [H160; 15] {
         [
             hash(1),
             hash(2),
@@ -96,6 +98,7 @@ where
             hash(Ed25519Verify::<R::AccountId>::INDEX),
             hash(BalanceTransferPrecompile::<R>::INDEX),
             hash(StakingPrecompile::<R>::INDEX),
+            hash(AlphaPrecompile::<R>::INDEX),
             hash(SubnetPrecompile::<R>::INDEX),
             hash(MetagraphPrecompile::<R>::INDEX),
             hash(NeuronPrecompile::<R>::INDEX),
@@ -148,6 +151,9 @@ where
             }
             a if a == hash(StakingPrecompileV2::<R>::INDEX) => {
                 StakingPrecompileV2::<R>::try_execute::<R>(handle, PrecompileEnum::Staking)
+            }
+            a if a == hash(AlphaPrecompile::<R>::INDEX) => {
+                AlphaPrecompile::<R>::try_execute::<R>(handle, PrecompileEnum::Staking)
             }
             a if a == hash(SubnetPrecompile::<R>::INDEX) => {
                 SubnetPrecompile::<R>::try_execute::<R>(handle, PrecompileEnum::Subnet)
